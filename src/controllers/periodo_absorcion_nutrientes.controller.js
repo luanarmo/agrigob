@@ -47,10 +47,10 @@ periodo.save = async (req, res) => {
 
 
 periodo.status = async (req, res) => {
-    const refPeriodoAN = await refPeriodoAN.find();
+    const rPeriodoAN = await refPeriodoAN.find();
     res.json({
         status: true,
-        refPeriodoAN: refPeriodoAN
+        refPeriodoAN: rPeriodoAN
     });
 }
 

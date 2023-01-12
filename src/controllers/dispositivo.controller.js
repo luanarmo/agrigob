@@ -33,10 +33,10 @@ dispositivo.save = async (req, res) => {
 }
 
 dispositivo.status = async (req, res) => {
-    const refDis = await refDis.find();
+    const rDis = await refDis.find();
     res.json({
         status: true,
-        refDis: refDis
+        refDis: rDis
     });
 }
 
