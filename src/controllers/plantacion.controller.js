@@ -55,4 +55,11 @@ plantacion.status = async (req, res) => {
     });
 }
 
+plantacion.eliminar = async (req, res) => {
+    await refPlantacion.deleteMany({});
+    res.json({
+        status: true
+    });
+}
+
 module.exports = plantacion;
