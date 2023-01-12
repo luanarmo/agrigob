@@ -8,7 +8,8 @@ const periodo_absorcion_nutrientes = mongoose.Schema({
     parametro_humedad: Number,
     id_tiempo_duracion: Number,
     creacion: Date,
-    actualizacion: Date
+    actualizacion: Date,
+    periodo: Number
 })
 
 module.exports = mongoose.model('periodo_absorcion_nutrientes', periodo_absorcion_nutrientes, 'periodo_absorcion_nutrientes')
