@@ -6,7 +6,7 @@ const periodo_absorcion_nutrientes = mongoose.Schema({
     parametro_P: Number,
     parametro_K: Number,
     parametro_humedad: Number,
-    id_tiempo_duracion: Number,
+    id_tiempo_duracion: String,
     creacion: Date,
     actualizacion: Date,
     periodo: Number
