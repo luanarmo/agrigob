@@ -8,6 +8,7 @@ periodo.save = async (req, res) => {
     const parametro_K = req.body.parametro_K;
     const parametro_humedad = req.body.parametro_humedad;
     const id_tiempo_duracion = req.body.id_tiempo_duracion;
+    const periodo = req.body.periodo;
     const creacion = new Date();
     const actualizacion = new Date();
 
@@ -29,6 +30,9 @@ periodo.save = async (req, res) => {
     if (id_tiempo_duracion === undefined || id_tiempo_duracion === null) {
         return res.status(400).json({ message: "No id_tiempo_duracion input" });
     }
+    if (periodo === undefined || periodo === null) {
+        return res.status(400).json({ message: "No periodo input" });
+    }
 
     const rPeriodo = new refPeriodoAN();
     rPeriodo.id_tipo_cultivo = id_tipo_cultivo;
@@ -37,6 +41,7 @@ periodo.save = async (req, res) => {
     rPeriodo.parametro_K = parametro_K;
     rPeriodo.parametro_humedad = parametro_humedad;
     rPeriodo.id_tiempo_duracion = id_tiempo_duracion;
+    rPeriodo.periodo = periodo;
     rPeriodo.creacion = creacion;
     rPeriodo.actualizacion = actualizacion;
 
