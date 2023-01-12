@@ -40,4 +40,4 @@ dispositivo.status = async (req, res) => {
     });
 }
 
-module.exports = refDis;
+module.exports = dispositivo;
