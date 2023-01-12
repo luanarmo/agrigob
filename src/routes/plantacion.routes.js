@@ -16,6 +16,7 @@ router.get('/plantacion/:id', async (req, res) => {
 });
 
 router.post('/', ctrlPlan.save);
+router.get('/del', ctrlPlan.eliminar);
 router.get('/', ctrlPlan.status);
 
 module.exports = router;
