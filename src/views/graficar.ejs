@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div id="tester" style="width:90%;height:250px;"></div>
+    <div class="wrapper">
+        <div id="chart"></div>
+        <script>
+            TESTER = document.getElementById('tester');
+
+            let ynumer = '<%-numbers%>';
+            const myArray = ynumer.split(",");
+
+            let xnumer = '<%-tam%>';
+            const mXArray = xnumer.split(",");
+
+            Plotly.plot(TESTER, [{
+                x: mXArray,
+                y: myArray
+            }], {
+                margin: { t: 0 }
+            }, { showSendToCloud: true });
+
+            /* Current Plotly.js version */
+            console.log(Plotly.BUILD);
+        </script>
+    </div>
+</body>
+
+</html>
