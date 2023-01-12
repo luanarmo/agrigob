@@ -33,11 +33,11 @@ plantacion.save = async (req, res) => {
     }
 
     const rTiCultivo = new refPlantacion();
-    rTiCultivo.fecha_plantacion = new Date(fecha_plantacion);
+    rTiCultivo.fecha_plantacion = fecha_plantacion;
     rTiCultivo.id_tipo_cultivo = id_tipo_cultivo;
     rTiCultivo.ubicacion = ubicacion;
     rTiCultivo.descripcion = descripcion;
-    rTiCultivo.fecha_cosecha = new Date(fecha_cosecha);
+    rTiCultivo.fecha_cosecha = fecha_cosecha;
     rTiCultivo.nombre = nombre;
     rTiCultivo.creacion = new Date();
     rTiCultivo.actualizacion = new Date();
