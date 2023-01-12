@@ -28,6 +28,9 @@ plantacion.save = async (req, res) => {
     if (nombre === undefined || nombre === null) {
         return res.status(400).json({ message: "No nombre input" });
     }
+    if (id_dispositivo_central === undefined || id_dispositivo_central === null) {
+        return res.status(400).json({ message: "No id_dispositivo_central input" });
+    }
 
     const rTiCultivo = new refPlantacion();
     rTiCultivo.fecha_plantacion = fecha_plantacion;
@@ -38,6 +41,7 @@ plantacion.save = async (req, res) => {
     rTiCultivo.nombre = nombre;
     rTiCultivo.creacion = new Date();
     rTiCultivo.actualizacion = new Date();
+    rTiCultivo.id_dispositivo_central = id_dispositivo_central;
     rTiCultivo.save();
 
     return res.status(200).json({ message: "guardado correctamente" });
