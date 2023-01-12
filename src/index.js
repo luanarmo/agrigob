@@ -4,6 +4,13 @@ require("dotenv").config()
 
 const medicionRoutes = require('./routes/medicion.routes')
 
+const usRoutes = require("./routes/usuario.routes");
+const disRoutes = require("./routes/dispositivos.router");
+const culRoutes = require("./routes/plantacion.routes");
+const tipoRoutes = require("./routes/tipoCultivo.routes");
+const perAbsorcionRoutes = require("./routes/periodo_absorcion_nutrientes.routes");
+const duracionRoutes = require("./routes/tiempo_duracion_periodo.router");
+
 
 const app = express()
 const port = process.env.PORT || 9000
@@ -12,7 +19,17 @@ app.set('view engine', 'ejs');
 app.set('views', __dirname);
 app.use(express.json());
 
-app.use('/api', medicionRoutes);
+const path = '/spi';
+
+app.use(path + '/api', medicionRoutes);
+
+app.use(path + '/us', usRoutes);
+app.use(path + '/dis', disRoutes);
+app.use(path + '/cul', culRoutes);
+app.use(path + '/tipo', tipoRoutes);
+app.use(path + '/per', perAbsorcionRoutes);
+app.use(path + '/dur', duracionRoutes);
+
 
 app.get('/', (req, res) => {
     res.json("Welcome to my API")
