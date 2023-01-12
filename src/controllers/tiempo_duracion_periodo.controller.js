@@ -16,7 +16,7 @@ tiempoDuracion.save = async (req, res) => {
     rTiempo.cant_dias = cant_dias;
     rTiempo.creacion = new Date();
     rTiempo.actualizacion = new Date();
-    rTiCultivo.save();
+    rTiempo.save();
 
     return res.status(200).json({ message: "guardado correctamente" });
 }
