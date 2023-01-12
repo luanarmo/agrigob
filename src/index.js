@@ -1,12 +1,14 @@
 const express = require('express')
 const mongoose = require('mongoose')
 require("dotenv").config()
-
+const medicionRoutes = require('./routes/medicion.routes')
 
 const app = express()
 const port = process.env.PORT || 9000
 
 app.use(express.json())
+
+app.use('/api',medicionRoutes)
 
 app.get('/', (req, res) => {
     res.json("Welcome to my API")
