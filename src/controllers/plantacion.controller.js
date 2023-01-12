@@ -10,7 +10,7 @@ plantacion.save = async (req, res) => {
     const nombre = req.body.nombre;
     const id_dispositivo_central = req.body.id_dispositivo_central;
 
-    if (fecha_plantacion === undefined || fecha_plantacion === null) {
+    if (fecha_plantacion === undefined || fecha_plantacion === null || typeof fecha_cosecha !== 'string') {
         return res.status(400).json({ message: "No fecha_plantacion input" });
     }
     if (id_tipo_cultivo === undefined || id_tipo_cultivo === null) {
@@ -22,7 +22,7 @@ plantacion.save = async (req, res) => {
     if (descripcion === undefined || descripcion === null) {
         return res.status(400).json({ message: "No descripcion input" });
     }
-    if (fecha_cosecha === undefined || fecha_cosecha === null) {
+    if (fecha_cosecha === undefined || fecha_cosecha === null || typeof fecha_cosecha !== 'string') {
         return res.status(400).json({ message: "No fecha_cosecha input" });
     }
     if (nombre === undefined || nombre === null) {
@@ -33,11 +33,11 @@ plantacion.save = async (req, res) => {
     }
 
     const rTiCultivo = new refPlantacion();
-    rTiCultivo.fecha_plantacion = fecha_plantacion;
+    rTiCultivo.fecha_plantacion = new Date(fecha_plantacion);
     rTiCultivo.id_tipo_cultivo = id_tipo_cultivo;
     rTiCultivo.ubicacion = ubicacion;
     rTiCultivo.descripcion = descripcion;
-    rTiCultivo.fecha_cosecha = fecha_cosecha;
+    rTiCultivo.fecha_cosecha = new Date(fecha_cosecha);
     rTiCultivo.nombre = nombre;
     rTiCultivo.creacion = new Date();
     rTiCultivo.actualizacion = new Date();
