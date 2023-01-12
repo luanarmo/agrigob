@@ -22,10 +22,10 @@ tiempoDuracion.save = async (req, res) => {
 }
 
 tiempoDuracion.status = async (req, res) => {
-    const refTiempoDuracion = await refTiempoDuracion.find();
+    const rTiempoDuracion = await refTiempoDuracion.find();
     res.json({
         status: true,
-        refTiempoDuracion: refTiempoDuracion
+        refTiempoDuracion: rTiempoDuracion
     });
 }
 

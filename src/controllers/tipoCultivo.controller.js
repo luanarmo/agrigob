@@ -16,10 +16,10 @@ tipoCultivo.save = async (req, res) => {
 }
 
 tipoCultivo.status = async (req, res) => {
-    const refTipoCultivo = await refTipoCultivo.find();
+    const ref = await refTipoCultivo.find();
     res.json({
         status: true,
-        refTipoCultivo: refTipoCultivo
+        refTipoCultivo: ref
     });
 }
 

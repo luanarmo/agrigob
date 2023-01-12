@@ -64,10 +64,10 @@ usuario.addDispo = async (req, res) => {
 }
 
 usuario.status = async (req, res) => {
-    const refUser = await refUser.find();
+    const rUser = await refUser.find();
     res.json({
         status: true,
-        refUser: refUser
+        rUser: rUser
     });
 }
 

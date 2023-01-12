@@ -44,10 +44,10 @@ plantacion.save = async (req, res) => {
 }
 
 plantacion.status = async (req, res) => {
-    const refPlantacion = await refPlantacion.find();
+    const rPlantacion = await refPlantacion.find();
     res.json({
         status: true,
-        refPlantacion: refPlantacion
+        refPlantacion: rPlantacion
     });
 }
 
