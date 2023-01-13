@@ -76,7 +76,7 @@ emisor.save = async (req, res) => {
                 rMed.idx = gateway.idx;
                 rMed.lectura = gateway.lectura;
 
-                rMed.save();
+                await rMed.save();
                 count++;
             } else {
                 // buscar dispositivos no activos(ya estan en lectura) y tienen habilitada lectura en true
@@ -104,7 +104,7 @@ emisor.save = async (req, res) => {
                     rMed.idx = gateway.idx;
                     rMed.lectura = gateway.lectura;
 
-                    rMed.save();
+                    await rMed.save();
                     count++
                 }
             }
