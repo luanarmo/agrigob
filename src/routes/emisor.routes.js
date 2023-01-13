@@ -8,7 +8,7 @@ const emisorCtrl = require('../controllers/emisor.controllers');
 router.get('/', emisorCtrl.status);
 router.post('/', emisorCtrl.save);
 
-router.get('/grafica/', emisorCtrl.graficar);
+router.get('/grafica/:name', emisorCtrl.graficar);
 router.get('/del', emisorCtrl.eliminar);
 
 module.exports = router;

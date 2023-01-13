@@ -5,10 +5,8 @@ const emisor = {};
 
 emisor.status = async (req, res) => {
     const med = await refMed.find();
-    const dis = await refDis.find();
     res.json({
         status: true,
-        DIS: dis,
         MED: med
     });
 }
@@ -18,7 +16,7 @@ emisor.save = async (req, res) => {
     // [{ id_gateway: 20, humedad_per: 83.08554, id_end_device: 1 }]
     const jsonString = req.body;
     if (jsonString !== undefined && jsonString !== null && jsonString.length !== 0) {
-
+        let count = 0;
         const dispositivos = await refDis.find();
         for (let lectura of jsonString) {
             const gateway = {
@@ -31,67 +29,91 @@ emisor.save = async (req, res) => {
                 k: Math.floor(Math.random() * (1999 - 0)) + 0,
             };
 
-            const reg = dispositivos.filter(dis => dis.nombre == gateway.id_gateway && dis.activo == false);            
+            const reg = dispositivos.filter(dis => dis.nombre == gateway.id_gateway && dis.activo == false);
             let idDipositivo = "";
             let cultivo = "";
             if (reg !== undefined && reg !== null && reg.length > 0) {
                 const dispo = reg[0];
                 idDipositivo = dispo._id;
-                cultivo = dispo.cultivo;
+                cultivo = dispo.id_plantacion;
+                // pasar activo = true;
+                // pasar lectura = true;
+                const edit = {
+                    activo: true,
+                    lectura: true
+                };
+                await refDis.findByIdAndUpdate(idDipositivo, { $set: edit }, { new: true });
+
+                const rMed = new refMed();
+                rMed.medicion_PH = gateway.ph;
+                rMed.medicion_Humedad = gateway.humedad_per;
+                rMed.medicion_N = gateway.n;
+                rMed.medicion_P = gateway.p;
+                rMed.medicion_K = gateway.k;
+
+                rMed.fecha_medicion = new Date();
+                rMed.nombre_sensor = gateway.id_end_device;
+                rMed.id_dispositivo_central = idDipositivo;
+                rMed.id_plantacion = cultivo;
+
+                rMed.creacion = new Date();
+                rMed.actualizacion = new Date();
+
+                rMed.save();
+                count++;
             } else {
-                const rDis = new refDis();
-                rDis.nombre = gateway.id_gateway;
-                rDis.cultivo = "Jitomate";
-                rDis.US = "Belmont";
-                rDis.activo = true;
-                rDis.creacion = new Date();
-                rDis.actualizacion = new Date();
-                rDis.save();
+                // buscar dispositivos no activos(ya estan en lectura) y tienen habilitada lectura en true
+                const reg2 = dispositivos.filter(dis => dis.nombre == gateway.id_gateway && dis.activo == true);
+                if (reg2 !== undefined && reg2 !== null && reg2.length > 0) {
+                    const dispo = reg2[0];
+                    idDipositivo = dispo._id;
+                    cultivo = dispo.id_plantacion;
 
-                idDipositivo = rDis.id;
-                cultivo = "Belmont";
+                    const rMed = new refMed();
+                    rMed.medicion_PH = gateway.ph;
+                    rMed.medicion_Humedad = gateway.humedad_per;
+                    rMed.medicion_N = gateway.n;
+                    rMed.medicion_P = gateway.p;
+                    rMed.medicion_K = gateway.k;
+
+                    rMed.fecha_medicion = new Date();
+                    rMed.nombre_sensor = gateway.id_end_device;
+                    rMed.id_dispositivo_central = idDipositivo;
+                    rMed.id_plantacion = cultivo;
+
+                    rMed.creacion = new Date();
+                    rMed.actualizacion = new Date();
+
+                    rMed.save();
+                    count++
+                }
             }
-
-            const rMed = new refMed();
-            rMed.ph = gateway.ph;
-            rMed.humedad = gateway.humedad_per;
-            rMed.nitrogeno = gateway.n;
-            rMed.fosforo = gateway.p;
-            rMed.potasio = gateway.k;
-            rMed.creacion = new Date();
-            rMed.actualizacion = new Date();
-            rMed.cultivo = cultivo;
-            rMed.dispositivo = idDipositivo;
-            rMed.sensor = gateway.id_end_device;
-            rMed.save();
         }
+        return res.status(200).json({ status: true, reg: jsonString.length, creados: count });
     }
-
-    res.json({
-        status: true
-    });
+    return res.status(400).json({ status: false });
 }
 
 emisor.graficar = async (req, res) => {
-    const med = await refMed.find();
+    const id = req.params.name;
+
+    const allMed = await refMed.find();
+    const med = allMed.filter(dis => dis.id_dispositivo_central == id);
 
     let num = "";
     let paso = "";
     let i = 0;
     for (let rm of med) {
         if (num.length == 0) {
-            num = '' + rm.humedad;
+            num = '' + rm.medicion_Humedad;
             paso = "" + i;
         } else {
-            num = num + ',' + rm.humedad;
+            num = num + ',' + rm.medicion_Humedad;
             paso = paso + ',' + i;
         }
         i++;
     }
 
-    console.log(num);
-    console.log("...");
-    console.log(paso);
     res.render('./views/graficar', {
         numbers: num,
         tam: paso
@@ -100,14 +122,15 @@ emisor.graficar = async (req, res) => {
 
 emisor.eliminar = async (req, res) => {
     const med = await refMed.find();
-    const dis = await refDis.find();
+    // const dis = await refDis.find();
 
     if (med !== undefined && med !== null) {
         await refMed.deleteMany({});
     }
+    /*
     if (dis !== undefined && dis !== null) {
         await refDis.deleteMany({});
-    }
+    }*/
     res.json({
         status: true
     });
