@@ -11,7 +11,7 @@ const medicion = mongoose.Schema({
     id_dispositivo_central: String,
     creacion: Date,
     id_plantacion: String,
-    idx: String,
+    idx: Number,
     lectura: String
 })
 
