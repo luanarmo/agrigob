@@ -74,7 +74,7 @@ emisor.save = async (req, res) => {
                 rMed.actualizacion = new Date();
                 
                 rMed.idx = gateway.idx;
-                rMed.lectura = gateway.lectura;
+                rMed.date = gateway.tiempo;
 
                 await rMed.save();
                 count++;
@@ -102,7 +102,7 @@ emisor.save = async (req, res) => {
                     rMed.actualizacion = new Date();
                     
                     rMed.idx = gateway.idx;
-                    rMed.lectura = gateway.lectura;
+                    rMed.date = gateway.tiempo;
 
                     await rMed.save();
                     count++
