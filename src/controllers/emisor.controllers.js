@@ -16,6 +16,18 @@ emisor.save = async (req, res) => {
     // [{ id_gateway: 20, humedad_per: 83.08554, id_end_device: 1 }]
     const jsonString = req.body;
     if (jsonString !== undefined && jsonString !== null && jsonString.length !== 0) {
+
+        jsonString.sort(function (a, b) {
+            if (a.idx > b.idx) {
+                return 1;
+            }
+            if (a.idx < b.idx) {
+                return -1;
+            }
+            // a must be equal to b
+            return 0;
+        });
+
         let count = 0;
         const dispositivos = await refDis.find();
         for (let lectura of jsonString) {
@@ -27,6 +39,8 @@ emisor.save = async (req, res) => {
                 n: Math.floor(Math.random() * (1999 - 0)) + 0,
                 p: Math.floor(Math.random() * (1999 - 0)) + 0,
                 k: Math.floor(Math.random() * (1999 - 0)) + 0,
+                tiempo: lectura.date,
+                idx: lectura.idx
             };
 
             const reg = dispositivos.filter(dis => dis.nombre == gateway.id_gateway && dis.activo == false);
@@ -58,6 +72,9 @@ emisor.save = async (req, res) => {
 
                 rMed.creacion = new Date();
                 rMed.actualizacion = new Date();
+                
+                rMed.idx = gateway.idx;
+                rMed.lectura = gateway.lectura;
 
                 rMed.save();
                 count++;
