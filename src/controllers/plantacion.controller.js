@@ -1,4 +1,6 @@
 const refPlantacion = require("../models/plantacion.model");
+const refDis = require("../models/dispositivo_central.model");
+
 const plantacion = {};
 
 plantacion.save = async (req, res) => {
@@ -43,6 +45,15 @@ plantacion.save = async (req, res) => {
     rTiCultivo.actualizacion = new Date();
     rTiCultivo.id_dispositivo_central = id_dispositivo_central;
     rTiCultivo.save();
+
+    if (Object.keys(id_dispositivo_central).length > 0) {
+        for (let dis of Object.keys(id_dispositivo_central)) {
+            const editUs = {
+                id_plantacion: "" + rTiCultivo._id
+            };
+            await refDis.findByIdAndUpdate(dis, { $set: editUs }, { new: true });
+        }
+    }
 
     return res.status(200).json({ message: "guardado correctamente" });
 }

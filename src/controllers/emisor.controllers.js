@@ -1,5 +1,5 @@
-const refMed = require('../model/medicion');
-const refDis = require('../model/dispositivo');
+const refMed = require('../models/medicion.model');
+const refDis = require('../models/dispositivo_central.model');
 
 const emisor = {};
 
@@ -14,6 +14,7 @@ emisor.status = async (req, res) => {
 }
 
 emisor.save = async (req, res) => {
+    // RAPERRY1
     // [{ id_gateway: 20, humedad_per: 83.08554, id_end_device: 1 }]
     const jsonString = req.body;
     if (jsonString !== undefined && jsonString !== null && jsonString.length !== 0) {
@@ -24,18 +25,18 @@ emisor.save = async (req, res) => {
                 id_gateway: lectura.id_gateway,
                 humedad_per: lectura.humedad_per,
                 id_end_device: lectura.id_end_device,
-                ph: 0,
-                n: 0,
-                p: 0,
-                k: 0
+                ph: Math.floor(Math.random() * (9 - 3)) + 3,
+                n: Math.floor(Math.random() * (1999 - 0)) + 0,
+                p: Math.floor(Math.random() * (1999 - 0)) + 0,
+                k: Math.floor(Math.random() * (1999 - 0)) + 0,
             };
 
-            const reg = dispositivos.filter(dis => dis.nombre == gateway.id_gateway && dis.activo == true);
+            const reg = dispositivos.filter(dis => dis.nombre == gateway.id_gateway && dis.activo == false);            
             let idDipositivo = "";
             let cultivo = "";
             if (reg !== undefined && reg !== null && reg.length > 0) {
                 const dispo = reg[0];
-                idDipositivo = dispo.id;
+                idDipositivo = dispo._id;
                 cultivo = dispo.cultivo;
             } else {
                 const rDis = new refDis();

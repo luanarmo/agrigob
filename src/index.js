@@ -6,6 +6,7 @@ const medicionRoutes = require('./routes/medicion.routes')
 
 const usRoutes = require("./routes/usuario.routes");
 const disRoutes = require("./routes/dispositivos.router");
+const emisorRoutes = require("./routes/emisor.routes");
 const culRoutes = require("./routes/plantacion.routes");
 const tipoRoutes = require("./routes/tipoCultivo.routes");
 const perAbsorcionRoutes = require("./routes/periodo_absorcion_nutrientes.routes");
@@ -25,11 +26,11 @@ app.use(path + '/api', medicionRoutes);
 
 app.use(path + '/us', usRoutes);
 app.use(path + '/dis', disRoutes);
+app.use(path + '/emi', emisorRoutes);
 app.use(path + '/cul', culRoutes);
 app.use(path + '/tipo', tipoRoutes);
 app.use(path + '/per', perAbsorcionRoutes);
 app.use(path + '/dur', duracionRoutes);
-
 
 app.get('/', (req, res) => {
     res.json("Welcome to my API")
