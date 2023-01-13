@@ -10,7 +10,9 @@ const medicion = mongoose.Schema({
     nombre_sensor: String,
     id_dispositivo_central: String,
     creacion: Date,
-    id_plantacion: String
+    id_plantacion: String,
+    idx: Number,
+    lectura: String
 })
 
 module.exports = mongoose.model('medicion', medicion, 'medicion')
