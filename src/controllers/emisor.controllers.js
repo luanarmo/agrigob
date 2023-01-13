@@ -100,6 +100,9 @@ emisor.save = async (req, res) => {
 
                     rMed.creacion = new Date();
                     rMed.actualizacion = new Date();
+                    
+                    rMed.idx = gateway.idx;
+                    rMed.lectura = gateway.lectura;
 
                     rMed.save();
                     count++
