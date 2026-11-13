@@ -44,5 +44,45 @@ test('ejs renderiza una plantilla', async () => {
   assert.strictEqual(await ejs.render('<%= x %>', { x: 'hola' }), 'hola')
 })
 
+// Misma config de vistas que src/index.js: res.render('./views/graficar').
+test('graficar.ejs se renderiza con la config real de vistas', async () => {
+  const express = require('express')
+  const app = express()
+  app.set('view engine', 'ejs')
+  app.set('views', SRC)
+  app.get('/g', (req, res) => res.render('./views/graficar', { numbers: '1,2,3', tam: '0,1,2' }))
+
+  const server = http.createServer(app)
+  await new Promise((resolve) => server.listen(0, resolve))
+  const { port } = server.address()
+  try {
+    const res = await fetch(`http://127.0.0.1:${port}/g`)
+    assert.strictEqual(res.status, 200)
+    const html = await res.text()
+    assert.match(html, /'1,2,3'/)
+    assert.match(html, /'0,1,2'/)
+  } finally {
+    server.close()
+  }
+})
+
+// Express 5: req.body es undefined si no hay cuerpo; el endpoint no debe explotar.
+test('express.json deja req.body undefined sin cuerpo (Express 5)', async () => {
+  const express = require('express')
+  const app = express()
+  app.use(express.json())
+  app.post('/b', (req, res) => res.json({ body: req.body === undefined ? 'undefined' : 'defined' }))
+
+  const server = http.createServer(app)
+  await new Promise((resolve) => server.listen(0, resolve))
+  const { port } = server.address()
+  try {
+    const res = await fetch(`http://127.0.0.1:${port}/b`, { method: 'POST' })
+    assert.strictEqual((await res.json()).body, 'undefined')
+  } finally {
+    server.close()
+  }
+})
+
 // mongoose abre handles al cargar modelos; forzamos salida limpia.
 test.after(() => setImmediate(() => process.exit(process.exitCode || 0)))
